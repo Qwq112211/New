@@ -1,22 +1,29 @@
-      from telegram.ext import Updater, MessageHandler, Filters
-   from telegram import ParseMode
+from telegram.ext import Updater, MessageHandler, Filters
 
-   # Замените 'your_token' на ваш токен бота
-   updater = Updater(token='6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU', use_context=True)
-   dispatcher = updater.dispatcher
+# Функция-обработчик для пересылки сообщения во второй канал
+def forward_message(update, context):
+    # Получаем текст сообщения из первого канала
+    original_text = update.message.text
+    # Удаляем ненужный текст
+    modified_text = original_text.replace("H.U.G.O", "")
+    # Пересылаем модифицированный текст во второй канал
+    context.bot.send_message(chat_id='-4043745865', text=modified_text)
 
-   # Функция для обработки входящих сообщений
-   def copy_modify_send(update, context):
-       # Здесь вы можете добавить логику для удаления части текста
-       modified_message_text = update.message.text.replace('H.U.G.O PROJECT', '///')
+def main():
+    # Установка токена вашего бота
+    updater = Updater("6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU", use_context=True)
 
-       # Здесь замените 'destination_channel_id' на ID вашего канала, куда вы хотите отправить модифицированное сообщение
-       context.bot.send_message(chat_id='-4043745865', text=modified_message_text, parse_mode=ParseMode.HTML)
+    # Получаем диспетчер для зарегистрированных обработчиков
+    dp = updater.dispatcher
 
-   # Добавление обработчика входящих сообщений
-   echo_handler = MessageHandler(Filters.chat('-4045914293') & Filters.text, copy_modify_send)
-   dispatcher.add_handler(echo_handler)
+    # Регистрируем обработчик для входящих сообщений из первого канала
+    dp.add_handler(MessageHandler(Filters.chat("-4045914293") & Filters.text, forward_message))
 
-   # Запуск бота
-   updater.start_polling()
-   
+    # Запускаем бота
+    updater.start_polling()
+
+    # Останавливаем бота при нажатии Ctrl+C
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
