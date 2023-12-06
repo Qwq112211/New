@@ -3,8 +3,8 @@ from telethon import TelegramClient, events, sync
 api_id = '22928444'
 api_hash = '972e1a6e4116dbb7964a0f1ed9dc39ed'
 bot_token = '6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU'
-source_channel = 'Cris и 🔺H.U.G.O'
-destination_channel = 'Отчет рек'
+source_channel = 'UAE1'
+destination_channel = 'Отчет'
 unwanted_text = 'H.U.G.O PROJECT'
 replacement_text = 'TEXTtest'
 
