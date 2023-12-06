@@ -1,29 +1,44 @@
-from telegram.ext import Updater, MessageHandler, Filters
 
-# Функция-обработчик для пересылки сообщения во второй канал
-def forward_message(update, context):
-    # Получаем текст сообщения из первого канала
-    original_text = update.message.text
-    # Удаляем ненужный текст
-    modified_text = original_text.replace("H.U.G.O", "")
-    # Пересылаем модифицированный текст во второй канал
-    context.bot.send_message(chat_id='-4043745865', text=modified_text)
+from telethon.sync import TelegramClient
+from telethon.tl.functions.messages import ForwardMessagesRequest
+from telethon.tl.functions.channels import GetParticipantsRequest
+from telethon.tl.types import InputChannel, ChannelParticipantsSearch
+from telethon.tl.types import UserStatusRecently
+import re
 
-def main():
-    # Установка токена вашего бота
-    updater = Updater("6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU", use_context=True)
+# Ваши данные API
+api_id = '22928444'
+api_hash = '972e1a6e4116dbb7964a0f1ed9dc39ed'
+phone = '+6283132117844'
+session_file = '82K2'
 
-    # Получаем диспетчер для зарегистрированных обработчиков
-    dp = updater.dispatcher
+# Номер канала, откуда нужно брать текст
+source_channel = '-4045914293'
+# Номер канала, куда нужно отправлять текст
+destination_channel = '-4043745865'
 
-    # Регистрируем обработчик для входящих сообщений из первого канала
-    dp.add_handler(MessageHandler(Filters.chat("-4045914293") & Filters.text, forward_message))
+# Инициализация клиента
+client = TelegramClient(session_file, api_id, api_hash)
 
-    # Запускаем бота
-    updater.start_polling()
+async def main():
+    await client.start(phone)
+    source = await client.get_entity(source_channel)
+    destination = await client.get_entity(destination_channel)
 
-    # Останавливаем бота при нажатии Ctrl+C
-    updater.idle()
+    # Получение последних сообщений из первого канала
+    messages = await client.get_messages(source, limit=10)
+
+    for message in messages:
+        # Обработка текста (удаление ненужной информации)
+        processed_text = re.sub('H.U.G.O PROJECT', '', message.text)
+        
+        # Пересылка обработанного текста во второй канал
+        await client(ForwardMessagesRequest(
+            from_peer=source,
+            id=[message.id],
+            to_peer=destination
+        ))
 
 if __name__ == '__main__':
-    main()
+    with client:
+        client.loop.run_until_complete(main())
