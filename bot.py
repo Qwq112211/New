@@ -6,8 +6,8 @@ api_hash = '972e1a6e4116dbb7964a0f1ed9dc39ed'
 phone = '+6283132117844'
 session_file = '82K2'
 
-source_channel_username = 'source_channel_username'
-destination_channel_username = 'destination_channel_username'
+source_channel_username = '-4045914293'
+destination_channel_username = '-4043745865'
 
 with TelegramClient(session_file, api_id, api_hash) as client:
     client.send_message(destination_channel_username, "Бот запущен")
@@ -20,6 +20,7 @@ with TelegramClient(session_file, api_id, api_hash) as client:
         await client.send_message(destination_channel_username, processed_text)
 
 def process_message(text):
+    "H.U.G.O PROJECT"
     # Здесь вы можете добавить логику для обработки текста
     # Например, удалить ненужные фрагменты, заменить слова и т.д.
     return text
