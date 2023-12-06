@@ -2,16 +2,16 @@ import telebot
 import os
 
 # Инициализация бота
-bot = telebot.TeleBot('YOUR_BOT_API_TOKEN')
+bot = telebot.TeleBot(6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU)
 
 # Обработчик сообщений из группы
-@bot.message_handler(content_types=['text'], func=lambda message: message.chat.id == YOUR_GROUP_CHAT_ID)
+@bot.message_handler(content_types=['text'], func=lambda message: message.chat.id == -4045914293)
 def handle_group_messages(message):
     # Удаление не нужного текста из сообщения
-    cleaned_text = message.text.replace("unwanted_text", "")
+    cleaned_text = message.text.replace(✖️H.U.G.O PROJECT✖️, "")
     
     # Пересылка очищенного сообщения в канал
-    bot.send_message(YOUR_CHANNEL_ID, cleaned_text)
+    bot.send_message(-4043745865, cleaned_text)
 
 # Запуск бота
 bot.polling()
