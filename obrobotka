@@ -1,1 +1,32 @@
+import asyncio
+import re
+from aiogram import Bot, Dispatcher, types
+from aiogram.types import Message
+from aiogram import executor
+
+# Инициализация бота
+API_TOKEN = '6658334394:AAF8c4GXynHpPfiiWRQx2XaL_WbuzrW3vxU'
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
+
+# Функция для чтения и обработки сообщений
+async def process_message(message: Message):
+    # Чтение сообщения из первого канала
+    original_text = message.text
+    
+    # Очистка ненужных слов
+    cleaned_text = re.sub(r'PROJECT', '', original_text)
+    
+    # Отправка исправленного текста во второй канал
+    await bot.send_message(chat_id='-4043745865', text=cleaned_text)
+
+# Обработчик новых сообщений
+@dp.message_handler()
+async def echo(message: types.Message):
+    await process_message(message)
+
+# Запуск бота
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    executor.start_polling(dp, skip_updates=True, loop=loop)
 0
